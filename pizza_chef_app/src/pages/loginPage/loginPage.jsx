@@ -87,14 +87,8 @@ class Login extends React.Component {
         </form>
         <button onClick={() => this.handleLogin()}>login</button>
 
-
-        <button onClick={() => this.props.navigation("/editToppings")}>
-          editToppings
-        </button>
         <button onClick={() => this.props.navigation("/")}>homepage</button>
-        <button onClick={() => this.props.navigation("/editPizza")}>
-          editPizza
-        </button>
+
       </div>
     );
     } else {

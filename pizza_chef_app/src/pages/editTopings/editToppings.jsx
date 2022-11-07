@@ -154,13 +154,8 @@ class EditingTopings extends React.Component {
             })}
           </div>
 
-          <button onClick={() => this.props.navigation("/editPizza")}>
-            editPizza
-          </button>
           <button onClick={() => this.props.navigation("/")}>homepage</button>
-          <button onClick={() => this.props.navigation("/loginPage")}>
-            loginPage
-          </button>
+
         </div>
       );
     }

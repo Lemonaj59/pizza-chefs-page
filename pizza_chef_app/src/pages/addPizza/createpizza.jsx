@@ -18,6 +18,7 @@ class CreatePizza extends React.Component {
     this.handleSelection = this.handleSelection.bind(this);
     this.failed = this.failed.bind(this);
     this.homePageNav = this.homePageNav.bind(this);
+    this.resetState = this.resetState.bind(this)
   }
 
   async componentDidMount() {
@@ -50,7 +51,7 @@ class CreatePizza extends React.Component {
     this.setState({failed: true})
   }
   async homePageNav() {
-    await this.props.navigation("/")
+    await this.props.navigate("/")
   }
 
   resetState() {
@@ -67,7 +68,8 @@ class CreatePizza extends React.Component {
         pizzaNames={this.state.pizzaNames}
         failed={this.failed}
         fail={this.state.fail}
-        homePageNav={this.homePageNav}/>
+        homePageNav={this.homePageNav}
+        resetState={this.resetState}/>
 
         <Accordion defaultActiveKey={["0"]} alwaysOpen>
           {this.state.toppings.map((option, index1) => {
@@ -101,7 +103,7 @@ class CreatePizza extends React.Component {
 
 
 export default function AddPizza(props) {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
 
-  return <CreatePizza {...props} navigation={navigation} />;
+  return <CreatePizza {...props} navigate={navigate} />;
 }

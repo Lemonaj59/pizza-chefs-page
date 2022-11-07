@@ -4,6 +4,9 @@ import "./homepage.css";
 
 import DisplayPizzas from "./components/pizzas";
 import CreateButton from "./components/createPizzaButton";
+import EditButton from "./components/editToppingsButton";
+import LogoutButton from "./components/logoutButton";
+import LoginButton from "./components/loginButton";
 
 class Homepage extends React.Component {
   constructor(props) {
@@ -14,20 +17,16 @@ class Homepage extends React.Component {
     };
     this.resetState = this.resetState.bind(this);
     this.getPizzas = this.getPizzas.bind(this);
-    
   }
 
   async componentDidMount() {
     await this.getPizzas();
     await this.props.checkLoginStatus();
-    await this.setState({ isLoaded: true });
-    
-
+    this.setState({ isLoaded: true });
   }
-  resetState() {
-    this.setState({isLoaded: false})
-    this.getPizzas();
-    this.setState({ isLoaded: true})
+  async resetState() {
+    this.setState({ isLoaded: false, pizzas: [] });
+    await this.componentDidMount();
   }
 
   async getPizzas() {
@@ -44,20 +43,33 @@ class Homepage extends React.Component {
         <div className="app">
           <h1>Homepage</h1>
           {this.state.pizzas.map((pizza) => {
-            return <DisplayPizzas pizza={pizza} userId={this.props.userId}
-            navigation={this.props.navigation}
-            selectedPizza={this.props.selectedPizza} 
-            resetState={this.resetState}/>;
+            return (
+              <DisplayPizzas
+                pizza={pizza}
+                userId={this.props.userId}
+                navigation={this.props.navigation}
+                selectedPizza={this.props.selectedPizza}
+                resetState={this.resetState}
+              />
+            );
           })}
-          <CreateButton navigation={this.props.navigation}
-          userId={this.props.userId}/>
+          <CreateButton
+            navigation={this.props.navigation}
+            userId={this.props.userId}
+          />
+          <EditButton
+            navigation={this.props.navigation}
+            userId={this.props.userId}
+          />
 
-          <button onClick={() => this.props.navigation("/editToppings")}>
-            editToppings
-          </button>
-          <button onClick={() => this.props.navigation("/loginPage")}>
-            loginPage
-          </button>
+          <LoginButton
+            userId={this.props.userId}
+            navigation={this.props.navigation}
+          />
+          <LogoutButton
+            userId={this.props.userId}
+            handleLogout={this.props.handleLogout}
+          />
         </div>
       );
     }

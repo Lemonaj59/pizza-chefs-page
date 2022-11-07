@@ -20,17 +20,22 @@ class App extends React.Component {
     this.checkLoginStatus = this.checkLoginStatus.bind(this);
     this.logout = this.logout.bind(this);
     this.selectedPizza = this.selectedPizza.bind(this);
+    this.resetState = this.resetState.bind(this);
   }
   loggedIn(userId, sucess) {
     this.setState({ userId: userId, logInSucess: true });
   }
 
   async handleLogout() {
-    await fetch("/loggedInStatus", {
+    await fetch("/logginStatus", {
       method: "DELETE",
       headers: { "content-type": "application/json" },
       body: null,
     });
+    await this.resetState();
+  }  
+  resetState() {
+    this.setState({userId: null, logInSucess: false})
   }
 
   async checkLoginStatus() {
@@ -50,6 +55,8 @@ class App extends React.Component {
     this.setState({pizzaName: pizza})
   }
 
+
+
   render() {
     return (
       <div>
@@ -62,6 +69,7 @@ class App extends React.Component {
                 userId={this.state.userId}
                 checkLoginStatus={this.checkLoginStatus}
                 selectedPizza={this.selectedPizza}
+                handleLogout={this.handleLogout}
               />
             }
           />

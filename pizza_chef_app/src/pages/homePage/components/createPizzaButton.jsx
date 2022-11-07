@@ -10,7 +10,7 @@ export default class CreateButton extends React.Component {
   render() {
     if (this.props.userId === 1) {
       return (
-        <button onClick={() => this.handleCreatePizzaClick()}>
+        <button key='create' onClick={() => this.handleCreatePizzaClick()}>
           Create Pizza
         </button>
       );

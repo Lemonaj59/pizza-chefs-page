@@ -38,7 +38,10 @@ class PizzaForm extends React.Component {
     }
   }
   async putAndReset() {
-    this.putPizza();
+    this.putPizza()
+    await this.props.homePageNav();
+    await this.props.resetState()
+    
   }
 
   render() {
@@ -54,7 +57,7 @@ class PizzaForm extends React.Component {
               value={this.state.name}
               onChange={this.handleNameChange}
             />
-            <button onClick={() => this.putPizza()}>Add your pizza!</button>
+            <button onClick={() => this.putAndReset()}>Add your pizza!</button>
           </form>
         </div>
       );
@@ -69,7 +72,7 @@ class PizzaForm extends React.Component {
             value={this.state.name}
             onChange={this.handleNameChange}
           />
-          <button onClick={() => this.putPizza()}>Add your pizza!</button>
+          <button onClick={() => this.putAndReset()}>Add your pizza!</button>
         </form>
       </div>
     );

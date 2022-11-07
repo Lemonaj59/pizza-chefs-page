@@ -30,7 +30,8 @@ class DisplayPizzas extends React.Component {
       method: "DELETE",
       headers: { "content-type": "application/json" },
     }); 
-    this.setState({isLoaded: false})
+    await this.setState({isLoaded: false})
+    await this.props.resetState();
 
   }
 
