@@ -10,6 +10,38 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 class App extends React.Component {
   constructor() {
     super();
+    this.state = {
+      userId: null,
+      logInSucess: false,
+    }
+    this.loggedIn = this.loggedIn.bind(this);
+    this.checkLoginStatus = this.checkLoginStatus.bind(this);
+    this.logout = this.logout.bind(this);
+  }
+loggedIn(userId, sucess) {
+  this.setState({userId, logInSucess: true})
+}
+
+async handleLogout() {
+  await fetch("/loggedInStatus", {
+    method: "DELETE",
+    headers: { "content-type": "application/json" },
+    body: null,
+  });
+}
+
+  async checkLoginStatus() {
+    let response = await fetch("/logginStatus");
+    response = await response.json();
+
+
+    if (response.userId) {
+      this.loggedIn(response.userId, true );
+    }
+  }
+
+  logout() {
+    this.setState({userId: null, logInSucess: false})
   }
 
   render() {
