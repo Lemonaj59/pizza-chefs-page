@@ -25,6 +25,9 @@ class DisplayPizzas extends React.Component {
     this.props.selectedPizza(option);
     this.props.navigation("./editPizza");
   }
+  handleDeleteClick(option) {
+    
+  }
 
   render() {
     if (!this.state.isLoaded) {
@@ -57,8 +60,9 @@ class DisplayPizzas extends React.Component {
               <button
                 onClick={() => this.handleEditClick(this.props.pizza.name)}
               >
-                hello
+                edit
               </button>
+              <button>delete</button>
             </Card.Body>
           </Card>
         </div>

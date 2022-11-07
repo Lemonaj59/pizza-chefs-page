@@ -9,7 +9,7 @@ router.use(function async(req, res, next) {
 router
   .route("/:name")
   .get(async (req, res) => {
-    let name = await req.params.name;
+    let name = req.params.name;
     const text1 = `SELECT pizza_id FROM pizzas WHERE name = $1`;
     const values = [name];
     let idQuery = await client.query(text1, values);
@@ -64,7 +64,27 @@ router
       res.sendStatus(200);
     }
 
-    console.log(body);
-  });
+  })
+  .put(async (req, res) => {
+    let newName = await req.body.newName;
+    const pizzaName = req.params.name; 
+
+    const text1 = `SELECT pizza_id FROM pizzas WHERE name = $1`;
+    const values = [pizzaName];
+    let idQuery = await client.query(text1, values);
+    const pizzaId = idQuery.rows[0].pizza_id;
+
+    let checkingText = `SELECT name FROM pizzas WHERE name = $1`;
+    let checkingValue = [newName];
+    let response = await client.query(checkingText, checkingValue);
+    response = response.rows[0];
+    console.log(pizzaId)
+    if (!response) {
+      const changeText = `UPDATE pizzas SET name = $1 WHERE pizza_id = $2`;
+      const changeValues = [newName, pizzaId];
+      await client.query(changeText, changeValues);
+    }
+    res.sendStatus(200);
+  })
 
 module.exports = router;

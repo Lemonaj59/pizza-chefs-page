@@ -65,7 +65,8 @@ class App extends React.Component {
             }
           />
           <Route exact path="/editPizza" element={<EditPizza
-          pizzaName={this.state.pizzaName} />} />
+          pizzaName={this.state.pizzaName}
+          selectedPizza={this.selectedPizza} />} />
           <Route exact path="/editToppings" element={<EditTopings />} />
           <Route
             exact

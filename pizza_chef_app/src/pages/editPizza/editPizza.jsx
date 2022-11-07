@@ -8,14 +8,18 @@ class EditingPizza extends React.Component {
     this.state = {
       toppings: [],
       isLoaded: false,
+      editName: false,
       eventKey: [0, 1, 2],
-      pizzaName: JSON.parse(localStorage.getItem("pizzaName"))[0] || null,
+      pizzaName: JSON.parse(localStorage.getItem("pizzaName")) || null,
+      pizzaNameEdit: "",
     };
     this.getSelectedToppings = this.getSelectedToppings.bind(this);
+    this.handleChangingName = this.handleChangingName.bind(this);
   }
 
-  componentDidMount() {
-    let pizzaName = this.props.pizzaName;
+  async componentDidMount() {
+    let pizzaName = await this.props.pizzaName;
+    console.log(this.props.pizzaName);
     if (pizzaName) {
       localStorage.setItem("pizzaName", JSON.stringify(pizzaName));
       this.setState({ pizzaName });
@@ -29,14 +33,87 @@ class EditingPizza extends React.Component {
     response = await response.json();
     this.setState({ toppings: response });
   }
+  updateLocalStorage(pizzaName) {
+    localStorage.removeItem("pizzaName");
+    localStorage.setItem("pizzaName", JSON.stringify(pizzaName));
+  }
+
+  editName() {
+    this.setState({ editName: true, pizzaNameEdit: this.state.pizzaName });
+  }
+  handleChangingName(event) {
+    this.setState({ pizzaNameEdit: event.target.value });
+  }
+  async handleNameChange() {
+    let newPizzaName = this.state.pizzaNameEdit;
+    const body = { newName: newPizzaName };
+    await fetch(`/pizza/${this.state.pizzaName}`, {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(body),
+    })
+      .then(() => this.props.selectedPizza(newPizzaName))
+      .then(() =>
+        localStorage.setItem(
+          "pizzaName",
+          JSON.stringify(newPizzaName)
+        )
+      )
+      .then(
+        this.setState({
+          isLoaded: false,
+          pizzaName: newPizzaName,
+          pizzaNameEdit: "",
+          editName: false,
+          toppings: [],
+        })
+      );
+    this.componentDidMount();
+  }
 
   render() {
     if (!this.state.isLoaded) {
       return <div>Loading</div>;
+    } else if (this.state.editName === false) {
+      return (
+        <div>
+          <h1>
+            {this.state.pizzaName} pizza{" "}
+            <button
+              onClick={() => {
+                this.editName();
+              }}
+            >
+              edit name
+            </button>
+          </h1>
+
+          <ListToppings
+            toppings={this.state.toppings}
+            getSelectedToppings={this.getSelectedToppings}
+            pizzaName={this.state.pizzaName}
+          />
+
+          <button onClick={() => this.props.navigation("/editToppings")}>
+            editToppings
+          </button>
+          <button onClick={() => this.props.navigation("/")}>homepage</button>
+          <button onClick={() => this.props.navigation("/loginPage")}>
+            loginPage
+          </button>
+        </div>
+      );
     } else {
       return (
         <div>
-          <h1>{this.state.pizzaName} pizza <button>edit name</button></h1>
+          <form>
+            <input
+              key="pizzaName"
+              value={this.state.pizzaNameEdit}
+              onChange={this.handleChangingName}
+            />
+            <button onClick={() => this.handleNameChange()}>save</button>
+          </form>
 
           <ListToppings
             toppings={this.state.toppings}
@@ -77,7 +154,6 @@ class ListToppings extends React.Component {
   }
 
   render() {
-
     return (
       <Accordion defaultActiveKey={["0"]} alwaysOpen>
         {this.props.toppings.map((option, index) => {
