@@ -30,7 +30,12 @@ class PizzaForm extends React.Component {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(body),
-      })
+      }).then(res => res.json())
+      if(response.sucess) {
+        localStorage.clear();
+        this.props.navigation("./");
+      }
+        
     }
   }
 

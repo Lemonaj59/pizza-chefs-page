@@ -2,8 +2,13 @@ const express = require("express");
 let router = express.Router();
 const client = require("../db");
 
+async function query(text, values) {
+  let response = await client.query(text, values);
+  console.log(response.rows);
+  return response.rows;
+}
+
 router.use(function async(req, res, next) {
-  console.log("toppings");
   next();
 });
 
@@ -43,6 +48,19 @@ router
   .post(async (req, res) => {
     const name = await req.body.name;
     const toppings = await req.body.toppings;
+
+    function createString(array) {
+      let string = "";
+      for (index = 1; index <= array.length; index += 2) {
+        if (index === array.length - 1) {
+          string += `($${index}, $${index + 1});`;
+        } else {
+          string += `($${index}, $${index + 1}), `;
+        }
+      }
+      return string;
+    }
+
     let selectedToppings = [];
     toppings.forEach((array) => {
       array.forEach((topping) => {
@@ -51,19 +69,84 @@ router
         }
       });
     });
-    let toppingIds = selectedToppings.map((topping) => topping.topping_id);
+    let toppingIds = selectedToppings
+      .map((topping) => topping.topping_id)
+      .sort((a, b) => a - b);
 
     let getPizzaIdText = `SELECT pizza_id FROM pizzas`;
     let idResponse = await client.query(getPizzaIdText);
     let ids = idResponse.rows;
     ids = ids.map((id) => id.pizza_id);
+    let text = `SELECT toppings, pizza FROM pizzas_and_toppings`;
+    let response = await client.query(text);
+    let idArray = [];
+    response = response.rows;
+    response.forEach((obj) => {
+      if (!idArray.includes(obj.pizza)) {
+        idArray.push(obj.pizza);
+      }
+    });
 
-    ids.map(id => {
-      let text = `SELECT toppings FROM pizzas_and_toppings WHERE pizza = $1`;
-      let values = [id];
-      let response = await client.query(text, values);
-      
-    })
+    let idByPizzas = idArray.map((num) => {
+      return response.map((obj) => {
+        if (obj.pizza === num) {
+          return obj.toppings;
+        } else {
+          return;
+        }
+      });
+    });
+    idByPizzas = idByPizzas.map((array) => {
+      return array.filter((num) => num);
+    });
+    function compareArrays() {
+      let newPizzaLength = toppingIds.length;
+      let currentPizzaLength = [];
+      let sameToppings = [];
+      idByPizzas.forEach((array) => currentPizzaLength.push(array.length));
+      if (currentPizzaLength.includes(newPizzaLength[0])) {
+        let index = currentPizzaLength.indexOf(newPizzaLength[0]);
+        for (
+          let ind = 1;
+          ind < currentPizzaLength.indexOf(newPizzaLength[0]);
+          ind += 1
+        ) {
+          if (toppingIds[ind] === idByPizzas[index][ind]) {
+            sameToppings.push(toppingIds[ind]);
+          } else {
+            break;
+          }
+        }
+      } else {
+        return true;
+      }
+      return sameToppings !== newPizzaLength;
+    }
+    let sucess = compareArrays();
+    if (sucess) {
+      let text = `INSERT INTO pizzas (name) VALUES ($1)`;
+      let values = [name];
+      await client.query(text, values);
+      text2 = `SELECT pizza_id FROM pizzas WHERE name = $1`;
+
+      let id = await client.query(text2, values);
+      id = id.rows[0].pizza_id;
+
+      let toppingValues = [];
+      toppingIds.forEach((num) => {
+        toppingValues.push(id);
+        toppingValues.push(num);
+      });
+      let string = createString(toppingValues);
+      console.log(toppingValues);
+      console.log(string);
+      let toppingText = `INSERT INTO pizzas_and_toppings (pizza, toppings)
+        VALUES ${string}`;
+        console.log(toppingText);
+      await client.query(toppingText, toppingValues);
+      res.json({sucess: true});
+    }
+    res.json({ sucess });
   });
 
 module.exports = router;
