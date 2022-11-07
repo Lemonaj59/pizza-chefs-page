@@ -11,6 +11,7 @@ const login = require("./routes/loginpage");
 const pizza = require("./routes/pizzaEdit");
 const homepage = require("./routes/hompage");
 const logginStatus = require("./routes/loginStatus");
+const createPizza = require("./routes/createPizza")
 const port = process.env.PORT || 3001;
 
 app.use(cors());
@@ -46,6 +47,7 @@ app.use("/login", login);
 app.use("/pizza", pizza);
 app.use("/homepage", homepage);
 app.use("/logginStatus", logginStatus);
+app.use("/createPizza", createPizza)
 
 app.listen(port, (err) => {
   console.log(`listening on port ${port}`);
