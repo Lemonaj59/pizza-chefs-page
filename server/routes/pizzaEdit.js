@@ -86,5 +86,19 @@ router
     }
     res.sendStatus(200);
   })
+  .delete(async (req, res) => {
+    let pizzaName = req.params.name;
+
+    const text1 = `SELECT pizza_id FROM pizzas WHERE name = $1`;
+    const values = [pizzaName];
+    let idQuery = await client.query(text1, values);
+    const pizzaId = idQuery.rows[0].pizza_id;
+
+    const deleteText = `DELETE FROM pizzas WHERE pizza_id = $1`;
+    const deleteValue = [pizzaId]
+
+    await client.query(deleteText, deleteValue);
+    res.sendStatus(200);
+  })
 
 module.exports = router;

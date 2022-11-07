@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./homepage.css";
 
 import DisplayPizzas from "./components/pizzas";
+import CreateButton from "./components/createPizzaButton";
 
 class Homepage extends React.Component {
   constructor(props) {
@@ -39,12 +40,11 @@ class Homepage extends React.Component {
             navigation={this.props.navigation}
             selectedPizza={this.props.selectedPizza} />;
           })}
+          <CreateButton navigation={this.props.navigation}
+          userId={this.props.userId}/>
 
           <button onClick={() => this.props.navigation("/editToppings")}>
             editToppings
-          </button>
-          <button onClick={() => this.props.navigation("/editPizza")}>
-            editPizza
           </button>
           <button onClick={() => this.props.navigation("/loginPage")}>
             loginPage

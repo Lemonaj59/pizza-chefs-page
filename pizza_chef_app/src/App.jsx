@@ -6,6 +6,7 @@ import EditTopings from "./pages/editTopings/editToppings";
 import LoginPage from "./pages/loginPage/loginPage";
 import HomePage from "./pages/homePage/homepage";
 import "bootstrap/dist/css/bootstrap.min.css";
+import AddPizza from "./pages/addPizza/createpizza";
 
 class App extends React.Component {
   constructor() {
@@ -79,6 +80,7 @@ class App extends React.Component {
               />
             }
           />
+          <Route exact path="/createPizza" element={<AddPizza/>}/>
         </Routes>
       </div>
     );
