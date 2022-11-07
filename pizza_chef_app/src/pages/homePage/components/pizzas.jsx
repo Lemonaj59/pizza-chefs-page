@@ -19,23 +19,9 @@ class DisplayPizzas extends React.Component {
 
   async setOptions() {
     let options = Object.keys(this.props.pizza);
-    options.unshift();
-    console.log(options);
     this.setState({ options: options, isLoaded: true });
   }
 
-  createText() {
-    let textArray = this.state.options.map((option) => {
-      if (option !== "name") {
-        return `${option}: ${this.props.pizza[option].join(", ")}`;
-      }
-    });
-    textArray = textArray.join(`,
-
-     `);
-
-    this.setState({ text: textArray });
-  }
 
   render() {
     if (!this.state.isLoaded) {
@@ -43,7 +29,7 @@ class DisplayPizzas extends React.Component {
     }
     return (
       <div>
-      <Card className="card" border="danger" style={{ width: "18rem" }}>
+      <Card key={this.props.pizza.name} className="card" border="danger" style={{ width: "18rem" }}>
         <Card.Header className="Header">{this.props.pizza.name}</Card.Header>
         <Card.Body>
           <Card.Title> Toppings </Card.Title>
@@ -51,7 +37,7 @@ class DisplayPizzas extends React.Component {
             {this.state.options.map((option) => {
               if (option !== "name") {
                 return (
-                  <p>
+                  <p key={option}>
                     {option} : {this.props.pizza[option].join(", ")}
                   </p>
                 )

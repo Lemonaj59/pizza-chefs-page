@@ -51,7 +51,12 @@ async handleLogout() {
           <Route exact path="/" element={<HomePage/>}/>
           <Route exact path="/editPizza" element={<EditPizza/>}/>
           <Route exact path="/editToppings" element={<EditTopings/>}/>
-          <Route exact path="/loginPage" element={<LoginPage/>}/>
+          <Route exact path="/loginPage" element={<LoginPage
+          checkLoginStatus={this.checkLoginStatus}
+          loggedIn={this.loggedIn}
+          logInSucess={this.state.logInSucess}
+
+          />}/>
         </Routes>
       </div>
     )
