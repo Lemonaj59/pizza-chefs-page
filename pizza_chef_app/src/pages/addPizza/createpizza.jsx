@@ -11,14 +11,21 @@ class CreatePizza extends React.Component {
       name: "",
       eventKey: [0, 1, 2],
       selected: {},
+      pizzaNames: [],
+      failed: false,
     };
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleSelection = this.handleSelection.bind(this);
+    this.failed = this.failed.bind(this);
   }
 
   async componentDidMount() {
     await this.getOptions();
     this.setState({ isLoaded: true });
+  }
+
+  handleSubmit = event => {
+    event.preventDefault();
   }
 
   async getOptions() {
@@ -28,7 +35,7 @@ class CreatePizza extends React.Component {
     let sauce = response.sauce;
 
     this.setState({
-      toppings: [meat, vegetable, sauce],
+      toppings: [meat, vegetable, sauce], pizzaNames: response.pizzaNames
     });
   }
 
@@ -42,13 +49,21 @@ class CreatePizza extends React.Component {
       : (option.selected = true);
   }
 
+  failed() {
+    this.setState({failed: true})
+  }
+
   render() {
     if (!this.state.isLoaded) {
       <div>loading</div>;
     }
     return (
       <div>
-        <PizzaForm toppings={this.state.toppings} />
+        <PizzaForm toppings={this.state.toppings} 
+        pizzaNames={this.state.pizzaNames}
+        failed={this.failed}
+        fail={this.state.fail}
+        handleSubmit={this.handleSubmit}/>
 
         <Accordion defaultActiveKey={["0"]} alwaysOpen>
           {this.state.toppings.map((option, index1) => {
