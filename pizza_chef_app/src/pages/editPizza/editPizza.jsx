@@ -9,17 +9,24 @@ class EditingPizza extends React.Component {
       toppings: [],
       isLoaded: false,
       eventKey: [0, 1, 2],
+      pizzaName: JSON.parse(localStorage.getItem("pizzaName")) || null,
     };
   }
 
   componentDidMount() {
+    let pizzaName = this.props.pizzaName;
+    if (pizzaName) {
+      localStorage.setItem("pizzaName", JSON.stringify(pizzaName))
+      this.setState({pizzaName})
+    }
+
     this.getSelectedToppings();
     this.setState({ isLoaded: true });
 
   }
 
   async getSelectedToppings() {
-    let response = await fetch(`/Pizza/${this.props.pizzaName}`);
+    let response = await fetch(`/Pizza/${this.state.pizzaName}`);
     response = await response.json();
     this.setState({ toppings: response });
   }
@@ -66,7 +73,7 @@ class ListToppings extends React.Component {
               <Accordion.Body>
                 {option.map(toppings => {
                   return (
-                    <p> {toppings.topping} selected {toppings.pizza_mix_id}</p>
+                    <p> {toppings.topping} {toppings.selected ? 'true' : 'false'}</p>
                   )
                 })}
               </Accordion.Body>

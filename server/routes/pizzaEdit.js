@@ -1,30 +1,42 @@
 const express = require("express");
 let router = express.Router();
-const client = require("../db")
+const client = require("../db");
 
 router.use(function async(req, res, next) {
-  next()
+  next();
 });
 
-router
-  .route("/:name")
-  .get(async (req, res) => {
-    const options = ['meat', 'vegetable', 'sauce']
-    let name = await req.params.name;
-    const text1 = `SELECT pizza_id FROM pizzas WHERE name = $1`
-    const values = [name];
-    let idQuery = await client.query(text1, values);
-    const id = idQuery.rows[0].pizza_id
-    let responses = [];
-    for(let index = 0; index < options.length; index += 1) {
-      let text = `SELECT toppings.topping_id,toppings.type, toppings.topping, pizzas_and_toppings.pizza_mix_id FROM pizzas_and_toppings RIGHT OUTER JOIN toppings ON pizzas_and_toppings.toppings = toppings.topping_id
-      WHERE toppings.type = $2 AND (pizzas_and_toppings.pizza = $1 OR pizzas_and_toppings.pizza IS NULL);`
-      let values = [id, options[index]]
-      let response = await client.query(text, values);
-      responses.push(response.rows);
-    }
+router.route("/:name").get(async (req, res) => {
+  let name = await req.params.name;
+  const text1 = `SELECT pizza_id FROM pizzas WHERE name = $1`;
+  const values = [name];
+  let idQuery = await client.query(text1, values);
+  const id = idQuery.rows[0].pizza_id;
 
-    res.json(responses)
-  })
+  let text = `SELECT * FROM toppings ORDER BY topping`;
+  let toppingsQuery = await client.query(text);
+  const idText = `SELECT toppings.topping_id FROM toppings JOIN pizzas_and_toppings ON toppings.topping_id = pizzas_and_toppings.toppings WHERE pizzas_and_toppings.pizza = $1`;
+  const idValue = [id];
+  let selectedItemIds = await client.query(idText, idValue);
+  selectedItemIds = selectedItemIds.rows.map((topping) => topping.topping_id);
 
-  module.exports = router;
+  const toppings = toppingsQuery.rows;
+  let meat = toppings.filter((topping) => topping.type === "meat");
+  let vegetable = toppings.filter((topping) => topping.type === "vegetable");
+  let sauce = toppings.filter((topping) => topping.type === "sauce");
+
+  let returnArray = [meat, vegetable, sauce].map((type) => {
+    return type.map((option) => {
+      if (selectedItemIds.includes(option.topping_id)) {
+        option["selected"] = true;
+        return option;
+      } else {
+        option["selected"] = false;
+        return option;
+      }
+    });
+  });
+  res.json(returnArray);
+});
+
+module.exports = router;
