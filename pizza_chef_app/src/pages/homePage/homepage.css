@@ -1,8 +1,19 @@
 
 .app {
   text-align: center;
+  box-sizing:inherit;
 }
 
 table {
   text-align: center;
+}
+.card {
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+.Header {
+  background-color: rgb(134, 134, 134);
+  height: 40px;
 }

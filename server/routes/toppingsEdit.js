@@ -14,9 +14,9 @@ router
     let toppingsQuery = await client.query(text);
     const toppings = toppingsQuery.rows;
     let meat = toppings.filter((topping) => topping.type === "meat");
-    let newmeat = meat.sort((a, b) => a.topping - b.topping);
     let vegetable = toppings.filter((topping) => topping.type === "vegetable");
     let sauce = toppings.filter((topping) => topping.type === "sauce");
+    console.log(meat)
 
     res.json({ meat, vegetable, sauce });
   })

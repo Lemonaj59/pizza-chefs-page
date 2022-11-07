@@ -5,6 +5,7 @@ import EditPizza from "./pages/editPizza/editPizza";
 import EditTopings from "./pages/editTopings/editToppings";
 import LoginPage from "./pages/loginPage/loginPage";
 import HomePage from "./pages/homePage/homepage";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class App extends React.Component {
   constructor() {
