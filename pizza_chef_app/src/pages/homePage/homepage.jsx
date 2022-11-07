@@ -36,7 +36,8 @@ class Homepage extends React.Component {
           <h1>Homepage</h1>
           {this.state.pizzas.map((pizza) => {
             return <DisplayPizzas pizza={pizza} userId={this.props.userId}
-            navigation={this.props.navigation} />;
+            navigation={this.props.navigation}
+            selectedPizza={this.props.selectedPizza} />;
           })}
 
           <button onClick={() => this.props.navigation("/editToppings")}>

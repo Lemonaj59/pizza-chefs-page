@@ -13,10 +13,12 @@ class App extends React.Component {
     this.state = {
       userId: null,
       logInSucess: false,
+      pizzaName: ''
     };
     this.loggedIn = this.loggedIn.bind(this);
     this.checkLoginStatus = this.checkLoginStatus.bind(this);
     this.logout = this.logout.bind(this);
+    this.selectedPizza = this.selectedPizza.bind(this);
   }
   loggedIn(userId, sucess) {
     this.setState({ userId: userId, logInSucess: true });
@@ -43,6 +45,10 @@ class App extends React.Component {
     this.setState({ userId: null, logInSucess: false });
   }
 
+  selectedPizza(pizza) {
+    this.setState({pizzaName: pizza})
+  }
+
   render() {
     return (
       <div>
@@ -54,10 +60,12 @@ class App extends React.Component {
               <HomePage
                 userId={this.state.userId}
                 checkLoginStatus={this.checkLoginStatus}
+                selectedPizza={this.selectedPizza}
               />
             }
           />
-          <Route exact path="/editPizza" element={<EditPizza />} />
+          <Route exact path="/editPizza" element={<EditPizza
+          pizzaName={this.state.pizzaName} />} />
           <Route exact path="/editToppings" element={<EditTopings />} />
           <Route
             exact
