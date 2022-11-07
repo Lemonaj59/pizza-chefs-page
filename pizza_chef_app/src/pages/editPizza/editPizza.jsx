@@ -10,11 +10,12 @@ class EditingPizza extends React.Component {
       isLoaded: false,
       editName: false,
       eventKey: [0, 1, 2],
-      pizzaName: JSON.parse(localStorage.getItem("pizzaName")) || null,
+      pizzaName: JSON.parse(localStorage.getItem("pizzaName"))[0] || null,
       pizzaNameEdit: "",
     };
     this.getSelectedToppings = this.getSelectedToppings.bind(this);
     this.handleChangingName = this.handleChangingName.bind(this);
+
   }
 
   async componentDidMount() {
@@ -34,7 +35,7 @@ class EditingPizza extends React.Component {
     this.setState({ toppings: response });
   }
   updateLocalStorage(pizzaName) {
-    localStorage.removeItem("pizzaName");
+    localStorage.removeItem("pizzaName")
     localStorage.setItem("pizzaName", JSON.stringify(pizzaName));
   }
 
@@ -70,6 +71,7 @@ class EditingPizza extends React.Component {
       );
     this.componentDidMount();
   }
+
 
   render() {
     if (!this.state.isLoaded) {

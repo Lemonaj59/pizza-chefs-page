@@ -9,11 +9,13 @@ router.use(function async(req, res, next) {
 router
   .route("/:name")
   .get(async (req, res) => {
-    let name = req.params.name;
+    let name = req.params.name.toString();
+      console.log(name);
     const text1 = `SELECT pizza_id FROM pizzas WHERE name = $1`;
     const values = [name];
     let idQuery = await client.query(text1, values);
     const id = idQuery.rows[0].pizza_id;
+    
 
     let text = `SELECT * FROM toppings ORDER BY topping`;
     let toppingsQuery = await client.query(text);
@@ -92,6 +94,7 @@ router
     const text1 = `SELECT pizza_id FROM pizzas WHERE name = $1`;
     const values = [pizzaName];
     let idQuery = await client.query(text1, values);
+    console.log(values)
     const pizzaId = idQuery.rows[0].pizza_id;
 
     const deleteText = `DELETE FROM pizzas WHERE pizza_id = $1`;

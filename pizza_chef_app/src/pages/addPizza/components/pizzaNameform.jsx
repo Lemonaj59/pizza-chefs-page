@@ -4,39 +4,41 @@ class PizzaForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: JSON.parse(localStorage.getItem("name")) || "",
-      failed: JSON.parse(localStorage.getItem("failed")) || false
+      name: "",
+      failed: false,
     };
     this.handleNameChange = this.handleNameChange.bind(this);
+    this.putPizza.bind(this);
   }
   componentWillUnmount() {
+    this.handleNav(true);
   }
   handleNameChange(event) {
     this.setState({ name: event.target.value });
-    localStorage.setItem("name", JSON.stringify(event.target.value))
+    localStorage.setItem("name", JSON.stringify(event.target.value));
   }
-  
-  handleSubmit = event => {
-    event.preventDefault();
+
+  handleNav(response) {
+    if (response) {
+      localStorage.clear();
+      this.props.homePageNav();
+    }
   }
 
   async putPizza() {
-    console.log(this.props.pizzaNames)
     if (this.props.pizzaNames.includes(this.state.name)) {
-      localStorage.setItem("failed", JSON.stringify(true))
+      localStorage.setItem("failed", JSON.stringify(true));
     } else {
       const body = { name: this.state.name, toppings: this.props.toppings };
       let response = await fetch("/createPizza", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(body),
-      }).then(res => res.json())
-      if(response.sucess) {
-        localStorage.clear();
-        this.props.navigation("./");
-      }
-        
+      });
     }
+  }
+  async putAndReset() {
+    this.putPizza();
   }
 
   render() {
@@ -45,15 +47,14 @@ class PizzaForm extends React.Component {
         <div>
           <h1>Create your mastery pizza!</h1>
           <h4>Choose a different name</h4>
-          <form onSubmit={this.handleSubmit}>
+          <form>
             <label> Please pick a unique name</label>
             <input
               key="newPizza"
               value={this.state.name}
               onChange={this.handleNameChange}
-              required
             />
-            <button type="submit" onClick={() => this.putPizza()}>Add your pizza!</button>
+            <button onClick={() => this.putPizza()}>Add your pizza!</button>
           </form>
         </div>
       );

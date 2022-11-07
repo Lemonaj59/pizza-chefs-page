@@ -29,7 +29,9 @@ class DisplayPizzas extends React.Component {
     await fetch(`/pizza/${option}`, {
       method: "DELETE",
       headers: { "content-type": "application/json" },
-    });
+    }); 
+    this.setState({isLoaded: false})
+
   }
 
   render() {
@@ -65,13 +67,14 @@ class DisplayPizzas extends React.Component {
               >
                 edit
               </button>
-              <button onClick={() => this.handleDeleteClick(this.props.pizza.name)}>
+              <button
+                onClick={() => this.handleDeleteClick(this.props.pizza.name)}
+              >
                 delete
               </button>
             </Card.Body>
           </Card>
         </div>
-        
       );
     } else {
       return (

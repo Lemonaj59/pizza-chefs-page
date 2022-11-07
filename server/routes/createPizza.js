@@ -8,6 +8,19 @@ async function query(text, values) {
   return response.rows;
 }
 
+function createString(array) {
+  let string = "";
+  for (index = 1; index <= array.length; index += 2) {
+    if (index === array.length - 1) {
+      string += `($${index}, $${index + 1});`;
+    } else {
+      string += `($${index}, $${index + 1}), `;
+    }
+  }
+  return string;
+}
+
+
 router.use(function async(req, res, next) {
   next();
 });
@@ -49,17 +62,30 @@ router
     const name = await req.body.name;
     const toppings = await req.body.toppings;
 
-    function createString(array) {
-      let string = "";
-      for (index = 1; index <= array.length; index += 2) {
-        if (index === array.length - 1) {
-          string += `($${index}, $${index + 1});`;
-        } else {
-          string += `($${index}, $${index + 1}), `;
+    function compareArrays() {
+      let newPizzaLength = toppingIds.length;
+      let currentPizzaLength = [];
+      let sameToppings = [];
+      idByPizzas.forEach((array) => currentPizzaLength.push(array.length));
+      if (currentPizzaLength.includes(newPizzaLength[0])) {
+        let index = currentPizzaLength.indexOf(newPizzaLength[0]);
+        for (
+          let ind = 1;
+          ind < currentPizzaLength.indexOf(newPizzaLength[0]);
+          ind += 1
+        ) {
+          if (toppingIds[ind] === idByPizzas[index][ind]) {
+            sameToppings.push(toppingIds[ind]);
+          } else {
+            break;
+          }
         }
+      } else {
+        return true;
       }
-      return string;
+      return sameToppings !== newPizzaLength;
     }
+
 
     let selectedToppings = [];
     toppings.forEach((array) => {
@@ -99,29 +125,7 @@ router
     idByPizzas = idByPizzas.map((array) => {
       return array.filter((num) => num);
     });
-    function compareArrays() {
-      let newPizzaLength = toppingIds.length;
-      let currentPizzaLength = [];
-      let sameToppings = [];
-      idByPizzas.forEach((array) => currentPizzaLength.push(array.length));
-      if (currentPizzaLength.includes(newPizzaLength[0])) {
-        let index = currentPizzaLength.indexOf(newPizzaLength[0]);
-        for (
-          let ind = 1;
-          ind < currentPizzaLength.indexOf(newPizzaLength[0]);
-          ind += 1
-        ) {
-          if (toppingIds[ind] === idByPizzas[index][ind]) {
-            sameToppings.push(toppingIds[ind]);
-          } else {
-            break;
-          }
-        }
-      } else {
-        return true;
-      }
-      return sameToppings !== newPizzaLength;
-    }
+    
     let sucess = compareArrays();
     if (sucess) {
       let text = `INSERT INTO pizzas (name) VALUES ($1)`;
@@ -144,9 +148,10 @@ router
         VALUES ${string}`;
         console.log(toppingText);
       await client.query(toppingText, toppingValues);
-      res.json({sucess: true});
+      res.sendStatus(200);
+    } else {
+    res.json({ sucess: false });
     }
-    res.json({ sucess });
   });
 
 module.exports = router;

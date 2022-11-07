@@ -12,6 +12,9 @@ class Homepage extends React.Component {
       pizzas: [],
       isLoaded: false,
     };
+    this.resetState = this.resetState.bind(this);
+    this.getPizzas = this.getPizzas.bind(this);
+    
   }
 
   async componentDidMount() {
@@ -20,6 +23,11 @@ class Homepage extends React.Component {
     await this.setState({ isLoaded: true });
     
 
+  }
+  resetState() {
+    this.setState({isLoaded: false})
+    this.getPizzas();
+    this.setState({ isLoaded: true})
   }
 
   async getPizzas() {
@@ -38,7 +46,8 @@ class Homepage extends React.Component {
           {this.state.pizzas.map((pizza) => {
             return <DisplayPizzas pizza={pizza} userId={this.props.userId}
             navigation={this.props.navigation}
-            selectedPizza={this.props.selectedPizza} />;
+            selectedPizza={this.props.selectedPizza} 
+            resetState={this.resetState}/>;
           })}
           <CreateButton navigation={this.props.navigation}
           userId={this.props.userId}/>
