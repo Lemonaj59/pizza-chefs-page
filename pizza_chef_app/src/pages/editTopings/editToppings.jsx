@@ -29,6 +29,7 @@ class EditingTopings extends React.Component {
     this.toggleEdit = this.toggleEdit.bind(this);
     this.getToppings = this.getToppings.bind(this);
     this.cancelEdit = this.cancelEdit.bind(this);
+    this.cancelClick = this.cancelClick.bind(this);
 
   }
 
@@ -83,7 +84,9 @@ class EditingTopings extends React.Component {
   handleClick(option) {
     this.setState({ addingTopping: true, newToppingOption: option });
   }
-
+  cancelClick() {
+    this.setState({ addingTopping: false, newToppingOption: null})
+  }
   handleNewToppingChange(event) {
     this.setState({ newTopping: event.target.value });
   }

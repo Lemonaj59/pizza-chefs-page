@@ -43,7 +43,7 @@ class Homepage extends React.Component {
     } else {
       return (
         <div className="app">
-          <h1>Homepage</h1>
+          <h1>Welcome to Lemonada pizza!</h1>
           {this.state.pizzas.map((pizza) => {
             return (
               <DisplayPizzas

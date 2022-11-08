@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
-
+import './editPizza.css'
 class EditingPizza extends React.Component {
   constructor() {
     super();
@@ -78,7 +78,7 @@ class EditingPizza extends React.Component {
       return <div>Loading</div>;
     } else if (this.state.editName === false) {
       return (
-        <div>
+        <div className="app">
           <h1>
             {this.state.pizzaName} pizza{" "}
             </h1>

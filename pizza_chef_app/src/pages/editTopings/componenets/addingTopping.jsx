@@ -5,11 +5,10 @@ class AddTopping extends React.Component {
     super(props);
     this.state = {
       sucess: null,
-    }
+    };
   }
 
   async addNewTopping(option) {
-
     let newTopping = this.props.newTopping;
     const body = { option, newTopping };
 
@@ -18,9 +17,8 @@ class AddTopping extends React.Component {
       headers: { "content-type": "application/json" },
       body: JSON.stringify(body),
     });
-    console.log(response)
+    console.log(response);
     if (!response.sucess) {
-      
     }
   }
 
@@ -32,31 +30,34 @@ class AddTopping extends React.Component {
     ) {
       return (
         <td>
-        <form>
-          <input
-            key={this.props.option}
-            value={this.props.newTopping}
-            onChange={this.props.handleNewToppingChange}
-          />
-          <button
-            key="add"
-            onClick={() => this.addNewTopping(this.props.option)}
-          >
-            {" "}
-            add
-          </button>
-        </form>
+          <form>
+            <input
+              key={this.props.option}
+              value={this.props.newTopping}
+              onChange={this.props.handleNewToppingChange}
+            />
+            <button
+              key="add"
+              onClick={() => this.addNewTopping(this.props.option)}
+            >
+              {" "}
+              add
+            </button>
+            <button key="cancel" onClick={() => this.props.cancelClick()}>
+              cancel
+            </button>
+          </form>
         </td>
       );
     } else {
       return (
         <td>
-        <button
-          key={this.props.option}
-          onClick={() => this.props.handleClick(this.props.option)}
-        >
-          addTopping
-        </button>
+          <button
+            key={this.props.option}
+            onClick={() => this.props.handleClick(this.props.option)}
+          >
+            addTopping
+          </button>
         </td>
       );
     }

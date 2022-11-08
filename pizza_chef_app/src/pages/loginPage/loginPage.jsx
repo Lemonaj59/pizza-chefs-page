@@ -66,7 +66,7 @@ class Login extends React.Component {
       return <div>loading</div>
     } if (this.state.sucess === null) {
     return (
-      <div>
+      <div className="app">
         <h1>loginPage</h1>
         
         <form>

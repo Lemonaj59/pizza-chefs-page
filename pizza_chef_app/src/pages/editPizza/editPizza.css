@@ -1,8 +1,7 @@
-
 .app {
   background: #F79D9D;
   text-align: center;
-  box-sizing:inherit;
+  max-height: max-content;
 }
 
 table {

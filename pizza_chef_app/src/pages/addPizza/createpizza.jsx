@@ -63,7 +63,7 @@ class CreatePizza extends React.Component {
       <div>loading</div>;
     }
     return (
-      <div>
+      <div className="app">
         <PizzaForm toppings={this.state.toppings} 
         pizzaNames={this.state.pizzaNames}
         failed={this.failed}
