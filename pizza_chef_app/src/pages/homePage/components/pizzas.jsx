@@ -21,8 +21,9 @@ class DisplayPizzas extends React.Component {
     this.setState({ options: options, isLoaded: true });
   }
 
-  handleEditClick(option) {
-    this.props.selectedPizza(option);
+  async handleEditClick(option) {
+    await this.props.selectedPizza(option);
+    await this.props.resetState();
     this.props.navigation("./editPizza");
   }
   async handleDeleteClick(option) {
@@ -64,7 +65,7 @@ class DisplayPizzas extends React.Component {
                 })}
               </Card.Text>
               <button
-                onClick={() => this.handleEditClick(this.props.pizza.name)}
+                onClick={() => this.handleEditClick(this.props.pizza.name[0])}
               >
                 edit
               </button>

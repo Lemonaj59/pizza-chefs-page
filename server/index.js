@@ -38,7 +38,6 @@ app.use(
 
 app.use(function (req, res, next) {
   req.session;
-  console.log("made it to index");
   next();
 });
 

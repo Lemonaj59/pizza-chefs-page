@@ -4,7 +4,7 @@ const client = require("../db");
 
 async function query(text, values) {
   let response = await client.query(text, values);
-  console.log(response.rows);
+
   return response.rows;
 }
 
@@ -19,7 +19,6 @@ function createString(array) {
   }
   return string;
 }
-
 
 router.use(function async(req, res, next) {
   next();
@@ -66,26 +65,44 @@ router
       let newPizzaLength = toppingIds.length;
       let currentPizzaLength = [];
       let sameToppings = [];
+      toppingIds = toppingIds.sort();
       idByPizzas.forEach((array) => currentPizzaLength.push(array.length));
-      if (currentPizzaLength.includes(newPizzaLength[0])) {
-        let index = currentPizzaLength.indexOf(newPizzaLength[0]);
-        for (
-          let ind = 1;
-          ind < currentPizzaLength.indexOf(newPizzaLength[0]);
-          ind += 1
-        ) {
-          if (toppingIds[ind] === idByPizzas[index][ind]) {
-            sameToppings.push(toppingIds[ind]);
-          } else {
-            break;
-          }
-        }
-      } else {
-        return true;
+      if (currentPizzaLength.includes(newPizzaLength)) {
+        idByPizzas = idByPizzas.map((array) => {
+          return array.map((num, index) => {
+            if (toppingIds.length > index) {
+              return num === toppingIds[index];
+            } else {
+              return false;
+            }
+          });
+        });
+
+        idByPizzas = idByPizzas.map((array) => array.filter((boo) => boo));
+
+        idByPizzas.forEach((array) => sameToppings.push(array.length));
       }
-      return sameToppings !== newPizzaLength;
+
+      return !sameToppings.includes(toppingIds.length);
     }
 
+    async function query(text, values) {
+      let response = await client.query(text, values);
+
+      return response.rows;
+    }
+
+    function createString(array) {
+      let string = "";
+      for (index = 1; index <= array.length; index += 2) {
+        if (index === array.length - 1) {
+          string += `($${index}, $${index + 1});`;
+        } else {
+          string += `($${index}, $${index + 1}), `;
+        }
+      }
+      return string;
+    }
 
     let selectedToppings = [];
     toppings.forEach((array) => {
@@ -95,9 +112,7 @@ router
         }
       });
     });
-    let toppingIds = selectedToppings
-      .map((topping) => topping.topping_id)
-      .sort((a, b) => a - b);
+    let toppingIds = selectedToppings.map((topping) => topping.topping_id);
 
     let getPizzaIdText = `SELECT pizza_id FROM pizzas`;
     let idResponse = await client.query(getPizzaIdText);
@@ -112,21 +127,20 @@ router
         idArray.push(obj.pizza);
       }
     });
-
     let idByPizzas = idArray.map((num) => {
       return response.map((obj) => {
         if (obj.pizza === num) {
           return obj.toppings;
-        } else {
-          return;
         }
       });
     });
-    idByPizzas = idByPizzas.map((array) => {
-      return array.filter((num) => num);
-    });
-    
+
+    idByPizzas = idByPizzas.map((array) =>
+      array.filter((ind) => ind !== undefined)
+    );
+
     let sucess = compareArrays();
+
     if (sucess) {
       let text = `INSERT INTO pizzas (name) VALUES ($1)`;
       let values = [name];
@@ -142,15 +156,14 @@ router
         toppingValues.push(num);
       });
       let string = createString(toppingValues);
-      console.log(toppingValues);
-      console.log(string);
+
       let toppingText = `INSERT INTO pizzas_and_toppings (pizza, toppings)
         VALUES ${string}`;
-        console.log(toppingText);
+
       await client.query(toppingText, toppingValues);
       res.sendStatus(200);
     } else {
-    res.json({ sucess: false });
+      res.json({ sucess: false });
     }
   });
 

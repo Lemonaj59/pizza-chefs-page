@@ -32,7 +32,7 @@ class App extends React.Component {
       headers: { "content-type": "application/json" },
       body: null,
     });
-    await this.resetState();
+    this.resetState();
   }  
   resetState() {
     this.setState({userId: null, logInSucess: false})
@@ -51,8 +51,8 @@ class App extends React.Component {
     this.setState({ userId: null, logInSucess: false });
   }
 
-  selectedPizza(pizza) {
-    this.setState({pizzaName: pizza})
+  async selectedPizza(pizza) {
+    await this.setState({pizzaName: pizza})
   }
 
 

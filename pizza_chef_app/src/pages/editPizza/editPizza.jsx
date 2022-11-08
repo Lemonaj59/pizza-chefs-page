@@ -10,7 +10,7 @@ class EditingPizza extends React.Component {
       isLoaded: false,
       editName: false,
       eventKey: [0, 1, 2],
-      pizzaName: JSON.parse(localStorage.getItem("pizzaName"))[0] || null,
+      pizzaName: JSON.parse(localStorage.getItem("pizzaName")) || null,
       pizzaNameEdit: "",
     };
     this.getSelectedToppings = this.getSelectedToppings.bind(this);
@@ -23,7 +23,7 @@ class EditingPizza extends React.Component {
     console.log(this.props.pizzaName);
     if (pizzaName) {
       localStorage.setItem("pizzaName", JSON.stringify(pizzaName));
-      this.setState({ pizzaName });
+      await this.setState({ pizzaName });
     }
     this.getSelectedToppings();
     this.setState({ isLoaded: true });
@@ -74,13 +74,15 @@ class EditingPizza extends React.Component {
 
 
   render() {
-    if (!this.state.isLoaded) {
+    if (!this.state.isLoaded ) {
       return <div>Loading</div>;
     } else if (this.state.editName === false) {
       return (
         <div>
           <h1>
             {this.state.pizzaName} pizza{" "}
+            </h1>
+            <h2>
             <button
               onClick={() => {
                 this.editName();
@@ -88,7 +90,7 @@ class EditingPizza extends React.Component {
             >
               edit name
             </button>
-          </h1>
+          </h2>
 
           <ListToppings
             toppings={this.state.toppings}
@@ -96,13 +98,8 @@ class EditingPizza extends React.Component {
             pizzaName={this.state.pizzaName}
           />
 
-          <button onClick={() => this.props.navigation("/editToppings")}>
-            editToppings
-          </button>
           <button onClick={() => this.props.navigation("/")}>homepage</button>
-          <button onClick={() => this.props.navigation("/loginPage")}>
-            loginPage
-          </button>
+ 
         </div>
       );
     } else {
@@ -123,13 +120,8 @@ class EditingPizza extends React.Component {
             pizzaName={this.state.pizzaName}
           />
 
-          <button onClick={() => this.props.navigation("/editToppings")}>
-            editToppings
-          </button>
           <button onClick={() => this.props.navigation("/")}>homepage</button>
-          <button onClick={() => this.props.navigation("/loginPage")}>
-            loginPage
-          </button>
+ 
         </div>
       );
     }

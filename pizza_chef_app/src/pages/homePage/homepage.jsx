@@ -22,11 +22,13 @@ class Homepage extends React.Component {
   async componentDidMount() {
     await this.getPizzas();
     await this.props.checkLoginStatus();
-    this.setState({ isLoaded: true });
+    await this.setState({ isLoaded: true, });
+  }
+  async componentWillUnmount() {
+    this.setState({isLoaded: false, pizzas: []})
   }
   async resetState() {
     this.setState({ isLoaded: false, pizzas: [] });
-    await this.componentDidMount();
   }
 
   async getPizzas() {
