@@ -16,3 +16,4 @@ services:
       - "host.docker.internal:host-gateway"
 volumes:
   pgdata:
+  
