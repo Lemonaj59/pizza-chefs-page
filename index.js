@@ -41,8 +41,6 @@ app.use(
 app.use(async function (req, res, next) {
     app.get('/', (req, res, next) => {
 
-
-      
       req.session;
       next();
     });
@@ -58,7 +56,7 @@ app.use(async function (req, res, next) {
 
     app.get("/", function(req, res) {
       console.log(path)
-      res.sendFile(path.join(__dirname, "./build/index.html"));
+      res.sendFile(path.join(__dirname, "/build/index.html"));
     });
 
 
