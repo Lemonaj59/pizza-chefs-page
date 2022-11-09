@@ -54,14 +54,16 @@ app.use(async function (req, res, next) {
   });
 
 
-   app.use("/toppings", toppings);
-    app.use("/login", login);
-    app.use("/pizza", pizza);
-    app.use("/homepage", homepage);
-    app.use("/logginStatus", logginStatus);
-    app.use("/createPizza", createPizza);
+   app.get("/toppings", toppings);
+    app.get("/login", login);
+    app.get("/pizza", pizza);
+    app.get("/homepage", homepage);
+    app.get("/logginStatus", logginStatus);
+    app.get("/createPizza", createPizza);
 
-    
+    app.get("/", function(req, res) {
+      res.sendFile(path.join(__dirname, "./build/index.html"));
+    });
 
 
     app.listen(port, (err) => {
