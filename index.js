@@ -42,6 +42,18 @@ app.use(function (req, res, next) {
   next();
 });
 
+app.get('/', (req, res, next) => {
+
+  res.status(200).json({
+      status: 'success',
+      data: {
+          name: 'lemonadapizzas',
+          version: '0.1.0'
+      }
+  });
+
+});
+
 app.use("/toppings", toppings);
 app.use("/login", login);
 app.use("/pizza", pizza);
