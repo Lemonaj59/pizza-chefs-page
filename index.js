@@ -60,7 +60,7 @@ app.use(async function (req, res, next) {
     app.use("/homepage", homepage);
     app.use("/logginStatus", logginStatus);
     app.use("/createPizza", createPizza);
-    app.get("/*", function(req, res) {
+    app.get("/", function(req, res) {
       res.sendFile(path.join(__dirname, "./build/index.html"));
     });
     
