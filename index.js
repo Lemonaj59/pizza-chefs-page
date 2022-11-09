@@ -57,7 +57,7 @@ app.use(async function (req, res, next) {
    app.get("/toppings", toppings);
     app.get("/login", login);
     app.get("/pizza", pizza);
-    app.get("/homepage", homepage);
+    app.use("/homepage", homepage);
     app.get("/logginStatus", logginStatus);
     app.get("/createPizza", createPizza);
 
