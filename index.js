@@ -47,12 +47,12 @@ app.use(async function (req, res, next) {
   });
 
 
-   app.get("/toppings", toppings);
-    app.get("/login", login);
-    app.get("/pizza", pizza);
+   app.use("/toppings", toppings);
+    app.use("/login", login);
+    app.use("/pizza", pizza);
     app.use("/homepage", homepage);
-    app.get("/logginStatus", logginStatus);
-    app.get("/createPizza", createPizza);
+    app.use("/logginStatus", logginStatus);
+    app.use("/createPizza", createPizza);
 
     app.get("/", function(req, res) {
       console.log(path)
