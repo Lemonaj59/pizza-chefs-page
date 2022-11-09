@@ -38,13 +38,7 @@ app.use(
 );
 
 app.use(function (req, res, next) {
-  res.status(200).json({
-    status: 'success',
-    data: {
-        name: 'lemonadapizzas',
-        version: '0.1.0'
-    }
-});
+  
   req.session;
   next();
 });
@@ -58,6 +52,7 @@ app.use("/pizza", pizza);
 app.use("/homepage", homepage);
 app.use("/logginStatus", logginStatus);
 app.use("/createPizza", createPizza);
+
 
 app.listen(port, (err) => {
   console.log(`listening on port ${port}`);
