@@ -93,7 +93,7 @@ class Login extends React.Component {
     );
     } else {
       return (
-        <div>
+        <div className="app">
           <h1>loginPage</h1>
           <h1> please enter valid username/password</h1>
           <form>
