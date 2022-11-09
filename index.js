@@ -54,14 +54,14 @@ app.use(async function (req, res, next) {
   });
 
 
-
-
-    app.use("/api/toppings", toppings);
-    app.use("/api/login", login);
-    app.use("/api/pizza", pizza);
-    app.use("/api/homepage", homepage);
-    app.use("/api/logginStatus", logginStatus);
-    app.use("/api/createPizza", createPizza);
+    app.set('views', path.join(__dirname, 'views'))
+    app.get('/', (req, res) => res.render('pages/index'))
+    app.get("/toppings", toppings);
+    app.get("/login", login);
+    app.get("/pizza", pizza);
+    app.get("/homepage", homepage);
+    app.get("/logginStatus", logginStatus);
+    app.get("/createPizza", createPizza);
 
 
     app.listen(port, (err) => {
