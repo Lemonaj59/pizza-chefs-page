@@ -37,23 +37,34 @@ app.use(
   })
 );
 
-app.use(function (req, res, next) {
-  
-  req.session;
-  next();
-});
+app.use(async function (req, res, next) {
+    app.get('/', (req, res, next) => {
+
+      res.status(200).json({
+        status: 'success',
+        data: {
+          name: 'name of your app',
+          version: '0.1.0'
+        }
+      });
+      
+      req.session;
+      next();
+    });
+  });
 
 
 
 
-app.use("/api/toppings", toppings);
-app.use("/api/login", login);
-app.use("/api/pizza", pizza);
-app.use("/api/homepage", homepage);
-app.use("/api/logginStatus", logginStatus);
-app.use("/api/createPizza", createPizza);
+    app.use("/api/toppings", toppings);
+    app.use("/api/login", login);
+    app.use("/api/pizza", pizza);
+    app.use("/api/homepage", homepage);
+    app.use("/api/logginStatus", logginStatus);
+    app.use("/api/createPizza", createPizza);
 
 
-app.listen(port, (err) => {
-  console.log(`listening on port ${port}`);
-});
+    app.listen(port, (err) => {
+      console.log(`listening on port ${port}`);
+    });
+  }
