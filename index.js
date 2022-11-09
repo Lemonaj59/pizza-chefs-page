@@ -54,14 +54,14 @@ app.use(async function (req, res, next) {
   });
 
 
-   
-    app.get('/', (req, res) => res.render('pages/index'))
-    app.use("/toppings", toppings);
+   app.use("/toppings", toppings);
     app.use("/login", login);
     app.use("/pizza", pizza);
     app.use("/homepage", homepage);
     app.use("/logginStatus", logginStatus);
     app.use("/createPizza", createPizza);
+    app.get('/', (req, res) => res.render('pages/index'))
+    
 
 
     app.listen(port, (err) => {
