@@ -16,7 +16,7 @@ const port = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname + "/build")));
+app.use(express.static(__dirname + "/build"));
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -61,7 +61,7 @@ app.use(async function (req, res, next) {
     app.use("/logginStatus", logginStatus);
     app.use("/createPizza", createPizza);
     app.get("/*", function(req, res) {
-      res.sendFile(path.join(__dirname, "./pizza_chef_app/public/index.html"));
+      res.sendFile(path.join(__dirname, "./build/index.html"));
     });
     
 
