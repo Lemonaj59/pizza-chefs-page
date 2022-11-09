@@ -5,6 +5,7 @@ let morgan = require("morgan");
 const client = require("./server/db");
 let session = require("express-session");
 pgSession = require("connect-pg-simple")(session);
+const path = require("path")
 
 const toppings = require("./server/routes/toppingsEdit");
 const login = require("./server/routes/loginpage");
