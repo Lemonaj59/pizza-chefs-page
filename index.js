@@ -54,7 +54,7 @@ app.use(async function (req, res, next) {
   });
 
 
-    app.set('views', path.join(__dirname, 'views'))
+   
     app.get('/', (req, res) => res.render('pages/index'))
     app.get("/toppings", toppings);
     app.get("/login", login);
