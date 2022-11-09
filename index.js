@@ -54,7 +54,7 @@ app.use("/logginStatus", logginStatus);
 app.use("/createPizza", createPizza);
 
 app.get("/", (req, res, next) => {
-  res.sendFile(__dirname , "index.html");
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 app.listen(port, (err) => {
   console.log(`listening on port ${port}`);
