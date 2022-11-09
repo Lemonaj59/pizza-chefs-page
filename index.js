@@ -2,16 +2,16 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 let morgan = require("morgan");
-const client = require("./db");
+const client = require("./server/db");
 let session = require("express-session");
 pgSession = require("connect-pg-simple")(session);
 
-const toppings = require("./routes/toppingsEdit");
-const login = require("./routes/loginpage");
-const pizza = require("./routes/pizzaEdit");
-const homepage = require("./routes/hompage");
-const logginStatus = require("./routes/loginStatus");
-const createPizza = require("./routes/createPizza");
+const toppings = require("./server/routes/toppingsEdit");
+const login = require("./server/routes/loginpage");
+const pizza = require("./server/routes/pizzaEdit");
+const homepage = require("./server/routes/hompage");
+const logginStatus = require("./server/routes/loginStatus");
+const createPizza = require("./server/routes/createPizza");
 const port = process.env.PORT || 3001;
 
 app.use(cors());
