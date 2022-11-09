@@ -1,2 +1,1 @@
-web: webpack-dev-server
-
+web: node index.js 
