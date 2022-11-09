@@ -46,12 +46,12 @@ app.use(function (req, res, next) {
 
 
 
-app.use("/toppings", toppings);
-app.use("/login", login);
-app.use("/pizza", pizza);
-app.use("/homepage", homepage);
-app.use("/logginStatus", logginStatus);
-app.use("/createPizza", createPizza);
+app.use("/api/toppings", toppings);
+app.use("/api/login", login);
+app.use("/api/pizza", pizza);
+app.use("/api/homepage", homepage);
+app.use("/api/logginStatus", logginStatus);
+app.use("/api/createPizza", createPizza);
 
 
 app.listen(port, (err) => {
