@@ -5,7 +5,7 @@ let morgan = require("morgan");
 const client = require("./server/db");
 let session = require("express-session");
 pgSession = require("connect-pg-simple")(session);
-let path = require("path")
+let path = require("path");
 const toppings = require("./server/routes/toppingsEdit");
 const login = require("./server/routes/loginpage");
 const pizza = require("./server/routes/pizzaEdit");
@@ -38,13 +38,9 @@ app.use(
 );
 
 app.use(function (req, res, next) {
-  
   req.session;
   next();
 });
-
-
-
 
 app.use("/toppings", toppings);
 app.use("/login", login);
@@ -54,7 +50,7 @@ app.use("/logginStatus", logginStatus);
 app.use("/createPizza", createPizza);
 
 app.get("/", (req, res, next) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 app.listen(port, (err) => {
   console.log(`listening on port ${port}`);
