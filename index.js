@@ -16,7 +16,7 @@ const port = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(__dirname + "./build"));
+app.use(express.static(__dirname + "/build"));
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -60,7 +60,9 @@ app.use(async function (req, res, next) {
     app.use("/homepage", homepage);
     app.use("/logginStatus", logginStatus);
     app.use("/createPizza", createPizza);
-    app.get('/', (req, res) => res.render('pages/index'))
+    app.get("/*", function(req, res) {
+      res.sendFile(path.join(__dirname, "./build/index.html"));
+    });
     
 
 
