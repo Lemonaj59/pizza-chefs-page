@@ -54,9 +54,9 @@ app.use(async function (req, res, next) {
     app.use("/logginStatus", logginStatus);
     app.use("/createPizza", createPizza);
 
-    app.get("/", function(req, res) {
+    app.get("*", function(req, res) {
       console.log(path)
-      res.send(path.join(__dirname, "/build/index.html"));
+      res.sendFile(path.join(__dirname, "./build/index.html"));
     });
 
 

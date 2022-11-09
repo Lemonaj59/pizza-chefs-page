@@ -3,11 +3,12 @@ let router = express.Router();
 let client = require("../db");
 
 router.use(function async(req, res, next) {
-
+  console.log('loadingHomepage')
   next();
 });
 
 router.route("/homepage").get(async (req, res) => {
+
   let text = `SELECT pizzas.name, toppings.topping, toppings.type FROM pizzas_and_toppings JOIN pizzas ON pizzas.pizza_id = pizza JOIN toppings ON toppings.topping_id = pizzas_and_toppings.toppings`;
 
   let response = await client.query(text);
