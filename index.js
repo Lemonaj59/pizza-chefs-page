@@ -5,8 +5,7 @@ let morgan = require("morgan");
 const client = require("./server/db");
 let session = require("express-session");
 pgSession = require("connect-pg-simple")(session);
-const path = require("path")
-
+let path = require("path")
 const toppings = require("./server/routes/toppingsEdit");
 const login = require("./server/routes/loginpage");
 const pizza = require("./server/routes/pizzaEdit");
@@ -17,7 +16,7 @@ const port = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(__dirname + "/build"));
+app.use(express.static(path.join(__dirname, "/build")));
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -38,30 +37,25 @@ app.use(
   })
 );
 
-app.use(async function (req, res, next) {
-    app.get('/', (req, res, next) => {
-
-      req.session;
-      next();
-    });
-  });
+app.use(function (req, res, next) {
+  
+  req.session;
+  next();
+});
 
 
-   //app.use("/toppings", toppings);
-   // app.use("/login", login);
-   // app.use("/pizza", pizza);
-   // app.use("/homepage", homepage);
-   // app.use("/logginStatus", logginStatus);
-   // app.use("/createPizza", createPizza);
-   require('./routes')(app);
 
 
-    app.get("*", function(req, res) {
-      console.log(path)
-      res.sendFile(path.join(__dirname, "./build/index.html"));
-    });
+app.use("/toppings", toppings);
+app.use("/login", login);
+app.use("/pizza", pizza);
+app.use("/homepage", homepage);
+app.use("/logginStatus", logginStatus);
+app.use("/createPizza", createPizza);
 
-
-    app.listen(port, (err) => {
-      console.log(`listening on port ${port}`);
-    });
+app.get("/", (req, res, next) => {
+  res.sendFile(__dirname , "index.html");
+});
+app.listen(port, (err) => {
+  console.log(`listening on port ${port}`);
+});

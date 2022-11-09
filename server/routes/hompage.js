@@ -2,7 +2,7 @@ const express = require("express");
 let router = express.Router();
 let client = require("../db");
 
-router.use(function async(req, res, next) {
+router.use(async function(req, res, next) {
   console.log('loadingHomepage')
   next();
 });
