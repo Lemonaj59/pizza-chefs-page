@@ -31,7 +31,7 @@ class App extends React.Component {
       method: "DELETE",
       headers: { "content-type": "application/json" },
       body: null,
-    }).then(() => this.resetState());
+    }).then(this.setState({userId: null, logInSucess: null}));
   }  
   resetState() {
     this.setState({userId: null, logInSucess: false})
