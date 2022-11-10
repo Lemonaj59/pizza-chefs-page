@@ -33,7 +33,9 @@ router.route("/").get(async (req, res) => {
       pizzaobj[nameArray.indexOf(name)][type] = [topping];
       
     } else  {
-      pizzaobj[nameArray.indexOf(name)][type].push(topping)
+     try { pizzaobj[nameArray.indexOf(name)][type].push(topping) }
+     catch{ return pizzaobj
+    }
     }
   });
   res.json({ pizzaobj });
