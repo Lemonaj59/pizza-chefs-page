@@ -40,7 +40,7 @@ class PizzaForm extends React.Component {
   async putAndReset() {
     this.putPizza()
     await this.props.homePageNav();
-    await this.props.resetState()
+    await this.props.resetState();
     
   }
 

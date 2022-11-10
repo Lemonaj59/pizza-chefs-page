@@ -14,7 +14,7 @@ class App extends React.Component {
     this.state = {
       userId: null,
       logInSucess: false,
-      pizzaName: ''
+      pizzaName: "",
     };
     this.loggedIn = this.loggedIn.bind(this);
     this.checkLoginStatus = this.checkLoginStatus.bind(this);
@@ -31,10 +31,12 @@ class App extends React.Component {
       method: "DELETE",
       headers: { "content-type": "application/json" },
       body: null,
-    }).then(this.setState({userId: null, logInSucess: null}));
-  }  
+    }).then(this.setState({ userId: null, logInSucess: null }));
+  }
   resetState() {
-    this.setState({userId: null, logInSucess: false})
+    this.setState({ userId: null, logInSucess: false }).then(() =>
+      this.componentDidMount()
+    );
   }
 
   async checkLoginStatus() {
@@ -51,10 +53,8 @@ class App extends React.Component {
   }
 
   async selectedPizza(pizza) {
-    await this.setState({pizzaName: pizza})
+    await this.setState({ pizzaName: pizza });
   }
-
-
 
   render() {
     return (
@@ -72,9 +72,16 @@ class App extends React.Component {
               />
             }
           />
-          <Route exact path="/editPizza" element={<EditPizza
-          pizzaName={this.state.pizzaName}
-          selectedPizza={this.selectedPizza} />} />
+          <Route
+            exact
+            path="/editPizza"
+            element={
+              <EditPizza
+                pizzaName={this.state.pizzaName}
+                selectedPizza={this.selectedPizza}
+              />
+            }
+          />
           <Route exact path="/editToppings" element={<EditTopings />} />
           <Route
             exact
@@ -87,7 +94,7 @@ class App extends React.Component {
               />
             }
           />
-          <Route exact path="/createPizza" element={<AddPizza/>}/>
+          <Route exact path="/createPizza" element={<AddPizza />} />
         </Routes>
       </div>
     );
