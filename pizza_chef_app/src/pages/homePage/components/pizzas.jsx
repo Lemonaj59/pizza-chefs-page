@@ -27,6 +27,7 @@ class DisplayPizzas extends React.Component {
     this.props.navigation("./editPizza");
   }
   async handleDeleteClick(option) {
+    option = option.toString();
     await fetch(`/pizza/${option}`, {
       method: "DELETE",
       headers: { "content-type": "application/json" },
