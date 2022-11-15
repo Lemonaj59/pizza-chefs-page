@@ -41,9 +41,7 @@ class Homepage extends React.Component {
   async logout() {
     this.props.handleLogout();
     this.resetState();
-    await this.getPizzas();
-    await this.props.checkLoginStatus();
-    this.setState({isLoaded: true})
+    this.props.navigation("/")
   }
 
   render() {
