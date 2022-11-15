@@ -38,8 +38,11 @@ class Homepage extends React.Component {
   }
 
   async logout() {
-    await this.props.handleLogout();
-    await this.resetState();
+    this.props.handleLogout();
+    this.resetState();
+    await this.getPizzas();
+    await this.props.checkLoginStatus();
+    this.setState({isLoaded: true})
   }
 
   render() {
