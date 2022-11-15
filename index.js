@@ -16,7 +16,7 @@ const port = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "/pizza_chef_app/build")));
+app.use(express.static(path.join(__dirname, "pizza_chef_app", "/build")));
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -50,7 +50,7 @@ app.use("/logginStatus", logginStatus);
 app.use("/createPizza", createPizza);
 
 app.get("/", (req, res, next) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
+  res.sendFile(path.join(__dirname, "pizza_chef_app", "build", "index.html"));
 });
 app.listen(port, (err) => {
   console.log(`listening on port ${port}`);
