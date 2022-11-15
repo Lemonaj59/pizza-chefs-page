@@ -17,6 +17,7 @@ class Homepage extends React.Component {
     };
     this.resetState = this.resetState.bind(this);
     this.getPizzas = this.getPizzas.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   async componentDidMount() {
