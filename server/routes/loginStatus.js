@@ -29,6 +29,7 @@ router
   .delete(async (req, res, next) => {
     req.session.destroy();
     next();
+    res.sendstatus(200);
   });
 
 module.exports = router;
