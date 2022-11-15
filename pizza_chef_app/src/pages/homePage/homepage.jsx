@@ -18,6 +18,7 @@ class Homepage extends React.Component {
     this.resetState = this.resetState.bind(this);
     this.getPizzas = this.getPizzas.bind(this);
     this.logout = this.logout.bind(this);
+    this.componentDidMount() = this.componentDidMount();
   }
 
   async componentDidMount() {
@@ -39,9 +40,9 @@ class Homepage extends React.Component {
   }
 
   async logout() {
-    this.props.handleLogout();
+    await this.props.handleLogout();
     this.resetState();
-    this.props.navigation("/")
+    await this.componentDidMount();
   }
 
   render() {
@@ -59,6 +60,7 @@ class Homepage extends React.Component {
                 navigation={this.props.navigation}
                 selectedPizza={this.props.selectedPizza}
                 resetState={this.resetState}
+                componentDidMount={this.componentDidMount}
               />
             );
           })}

@@ -33,6 +33,7 @@ class DisplayPizzas extends React.Component {
     }); 
     await this.setState({isLoaded: false})
     await this.props.resetState();
+    await this.componentDidMount();
 
   }
 
