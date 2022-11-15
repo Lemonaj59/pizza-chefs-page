@@ -21,6 +21,7 @@ class App extends React.Component {
     this.logout = this.logout.bind(this);
     this.selectedPizza = this.selectedPizza.bind(this);
     this.resetState = this.resetState.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
   }
   loggedIn(userId, sucess) {
     this.setState({ userId: userId, logInSucess: true });

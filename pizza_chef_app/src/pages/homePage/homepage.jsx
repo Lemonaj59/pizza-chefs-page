@@ -28,7 +28,7 @@ class Homepage extends React.Component {
     this.setState({isLoaded: false, pizzas: []})
   }
   async resetState() {
-    this.setState({ isLoaded: false, pizzas: [] });
+    this.setState(await { isLoaded: false, pizzas: [] });
   }
 
   async getPizzas() {
