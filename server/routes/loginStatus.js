@@ -27,7 +27,7 @@ router
     req.session.user = { userId: userId, username: username };
   })
   .delete(async (req, res, next) => {
-    req.session.destroy(req.session);
+    req.session.destroy();
     next();
     res.sendstatus(200);
   });
