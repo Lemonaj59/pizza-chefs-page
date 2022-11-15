@@ -75,7 +75,7 @@ class Homepage extends React.Component {
           />
           <LogoutButton
             userId={this.props.userId}
-            handleLogout={this.logout}
+            logout={this.logout}
           />
         </div>
       );

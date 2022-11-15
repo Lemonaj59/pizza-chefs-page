@@ -8,7 +8,7 @@ export default class LogoutButton extends React.Component {
   render() {
     if (this.props.userId) {
     return (
-      <button onClick={() => this.props.handleLogout()}>logout</button>
+      <button onClick={() => this.props.logout()}>logout</button>
     )
     } else {
       return <h1></h1>
