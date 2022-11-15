@@ -33,8 +33,7 @@ class App extends React.Component {
       headers: { "content-type": "application/json" },
       body: null,
     })
-      .then(this.setState({ userId: null, logInSucess: null }))
-      .then(redirect("/"));
+     await this.setState({ userId: null, logInSucess: null })
   }
   resetState() {
     this.setState({ userId: null, logInSucess: false }).then(() =>
