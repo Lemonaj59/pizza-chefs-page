@@ -37,6 +37,11 @@ class Homepage extends React.Component {
     this.setState({ pizzas: response.pizzaobj });
   }
 
+  async logout() {
+    await this.props.handleLogout();
+    await this.resetState();
+  }
+
   render() {
     if (!this.state.isLoaded) {
       return <div>loading</div>;
@@ -70,7 +75,7 @@ class Homepage extends React.Component {
           />
           <LogoutButton
             userId={this.props.userId}
-            handleLogout={this.props.handleLogout}
+            handleLogout={this.logout}
           />
         </div>
       );
