@@ -28,17 +28,15 @@ class App extends React.Component {
   }
 
   async handleLogout() {
-    await fetch("/loginStatus", {
+    await fetch("/logginStatus", {
       method: "DELETE",
       headers: { "content-type": "application/json" },
       body: null,
     })
-     await this.setState({ userId: null, logInSucess: null })
+     await this.setState({ userId: null, logInSucess: false })
   }
   resetState() {
-    this.setState({ userId: null, logInSucess: false }).then(() =>
-      this.componentDidMount()
-    );
+    this.setState({ userId: null, logInSucess: false })
   }
 
   async checkLoginStatus() {
