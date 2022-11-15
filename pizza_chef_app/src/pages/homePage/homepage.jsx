@@ -40,7 +40,6 @@ class Homepage extends React.Component {
   }
 
   async logout() {
-    await this.props.handleLogout();
     this.resetState();
     await this.componentDidMount();
   }
@@ -80,6 +79,7 @@ class Homepage extends React.Component {
           <LogoutButton
             userId={this.props.userId}
             logout={this.logout}
+            handleLogout={this.props.handleLogout}
           />
         </div>
       );
