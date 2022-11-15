@@ -28,7 +28,7 @@ class App extends React.Component {
   }
 
   async handleLogout() {
-    await fetch("/logginStatus", {
+    await fetch("/loginStatus", {
       method: "DELETE",
       headers: { "content-type": "application/json" },
       body: null,
